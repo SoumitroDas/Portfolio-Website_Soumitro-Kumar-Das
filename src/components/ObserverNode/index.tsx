@@ -41,7 +41,6 @@ export const ObserverNode: React.FC<Props> = ({ energyLevel, sectionMode, nodeMo
 
   // Animation Loop
   useEffect(() => {
-    let rafId: number;
     const tick = () => {
       if (nodeMode === 'resting') {
         // Smoothly return to ring center
@@ -53,9 +52,9 @@ export const ObserverNode: React.FC<Props> = ({ energyLevel, sectionMode, nodeMo
         starPos.current.y += (mouse.current.y - starPos.current.y) * 0.06;
       }
 
-      // Direct DOM update for star
+      // Defer DOM writes to GSAP's render phase to prevent forced reflows
       if (starRef.current) {
-        starRef.current.style.transform = `translate3d(${starPos.current.x}px, ${starPos.current.y}px, 0)`;
+        gsap.set(starRef.current, { x: starPos.current.x, y: starPos.current.y, force3D: true });
       }
 
       // Update trail array
@@ -63,8 +62,6 @@ export const ObserverNode: React.FC<Props> = ({ energyLevel, sectionMode, nodeMo
         trailRef.current.push({ x: starPos.current.x, y: starPos.current.y });
         if (trailRef.current.length > 10) trailRef.current.shift();
         
-        // We still need a React update for the trail dots if we render them as components
-        // but let's try to keep it optimized
         setTrail(trailRef.current.map((p, i) => ({
           ...p,
           opacity: (i / trailRef.current.length) * 0.4
@@ -75,18 +72,16 @@ export const ObserverNode: React.FC<Props> = ({ energyLevel, sectionMode, nodeMo
             setTrail([]);
         }
       }
-
-      rafId = requestAnimationFrame(tick);
     };
 
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
+    gsap.ticker.add(tick);
+    return () => gsap.ticker.remove(tick);
   }, [nodeMode]);
 
   return (
     <div 
       ref={containerRef}
-      className="fixed inset-0 pointer-events-none z-50 overflow-visible"
+      className="fixed inset-0 pointer-events-none z-50 overflow-visible observer-node-container"
       style={{ 
         width: '100vw', 
         height: '100vh', 
@@ -125,7 +120,6 @@ export const ObserverNode: React.FC<Props> = ({ energyLevel, sectionMode, nodeMo
       <div 
         ref={starRef}
         className="absolute top-0 left-0"
-        style={{ transform: `translate3d(${starPos.current.x}px, ${starPos.current.y}px, 0)` }}
       >
         <StarCore 
           position={{ x: 0, y: 0 }} // Base position handled by parent div

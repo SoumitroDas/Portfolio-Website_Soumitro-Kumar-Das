@@ -37,7 +37,7 @@ export const Hero: React.FC = () => {
         <div className="space-y-8 z-10">
           <div>
             <h1 className="font-display text-4xl md:text-6xl lg:text-7xl tracking-tight text-textPrimary leading-[1.1]">
-              Soumitro Kumar Das Shuvro
+              Soumitro Kumar Das
             </h1>
           </div>
 
@@ -112,7 +112,7 @@ export const Hero: React.FC = () => {
                 <div className="flex justify-between items-start">
                    <div className="space-y-1">
                       <p className="font-mono text-accentCyan text-[10px] uppercase tracking-widest">Recent Highlight</p>
-                      <h3 className="font-display text-xl text-textPrimary group-hover:text-accentCyan transition-colors">Q1 Publication</h3>
+                      <h2 className="font-display text-xl text-textPrimary group-hover:text-accentCyan transition-colors">Q1 Publication</h2>
                    </div>
                    <div className="w-8 h-8 border border-white/10 rounded-full flex items-center justify-center group-hover:border-accentCyan/30 transition-colors">
                       <div className="w-1.5 h-1.5 bg-accentCyan rounded-full animate-pulse" />

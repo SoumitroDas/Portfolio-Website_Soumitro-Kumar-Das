@@ -4,20 +4,22 @@ import { useObserverNode } from './hooks/useObserverNode';
 import { ObserverNode } from './components/ObserverNode';
 import { Background } from './components/Background';
 import { Hero } from './sections/Hero';
-import { About } from './sections/About';
-import { Research } from './sections/Research';
-import { Projects } from './sections/Projects';
-import { Timeline } from './sections/Timeline';
-import { Skills } from './sections/Skills';
-import { Debate } from './sections/Debate';
-import { Inquiry } from './sections/Inquiry';
-import { ContactModal } from './components/ui/ContactModal';
 import { AssistantChat } from './components/ui/AssistantChat';
 import { StatsBar } from './components/StatsBar';
 import { SECTIONS, SectionMode } from './lib/constants';
 import { Linkedin, Github, Search, Mail, GraduationCap, Database, BookOpen, Fingerprint } from 'lucide-react';
 
-const ResearchMap = lazy(() => import('./sections/ResearchMap').then(module => ({ default: module.ResearchMap })));
+const About = lazy(() => import('./sections/About').then(m => ({ default: m.About })));
+const Research = lazy(() => import('./sections/Research').then(m => ({ default: m.Research })));
+const ResearchMap = lazy(() => import('./sections/ResearchMap').then(m => ({ default: m.ResearchMap })));
+const Projects = lazy(() => import('./sections/Projects').then(m => ({ default: m.Projects })));
+const Timeline = lazy(() => import('./sections/Timeline').then(m => ({ default: m.Timeline })));
+const Skills = lazy(() => import('./sections/Skills').then(m => ({ default: m.Skills })));
+const Debate = lazy(() => import('./sections/Debate').then(m => ({ default: m.Debate })));
+const Inquiry = lazy(() => import('./sections/Inquiry').then(m => ({ default: m.Inquiry })));
+const ContactModal = lazy(() => import('./components/ui/ContactModal').then(m => ({ default: m.ContactModal })));
+const StatsBar = lazy(() => import('./components/StatsBar').then(m => ({ default: m.StatsBar })));
+const AssistantChat = lazy(() => import('./components/ui/AssistantChat').then(m => ({ default: m.AssistantChat })));
 
 const SectionWrapper: React.FC<{ 
   id: string; 
@@ -62,11 +64,12 @@ export default function App() {
           <Hero />
         </SectionWrapper>
 
-        <StatsBar />
+        <Suspense fallback={null}>
+          <StatsBar />
 
-        <SectionWrapper id="about" mode={SECTIONS.ABOUT} setMode={setSectionMode}>
-          <About />
-        </SectionWrapper>
+          <SectionWrapper id="about" mode={SECTIONS.ABOUT} setMode={setSectionMode}>
+            <About />
+          </SectionWrapper>
 
         <SectionWrapper id="research" mode={SECTIONS.RESEARCH} setMode={setSectionMode}>
           <Research />
@@ -112,15 +115,16 @@ export default function App() {
                </button>
                
                <div className="flex gap-4 md:gap-10 text-textSecondary flex-wrap justify-center md:justify-end">
-                  <a href="https://www.linkedin.com/in/soumitro-kumar-das" target="_blank" rel="noopener noreferrer" className="hover:text-accentCyan transition-colors" title="LinkedIn"><Linkedin className="w-5 h-5"/></a>
-                  <a href="https://github.com/SoumitroDas" target="_blank" rel="noopener noreferrer" className="hover:text-accentCyan transition-colors" title="GitHub"><Github className="w-5 h-5"/></a>
-                  <a href="https://www.researchgate.net/profile/Soumitro-Kumar-Das" target="_blank" rel="noopener noreferrer" className="hover:text-accentCyan transition-colors" title="ResearchGate"><BookOpen className="w-5 h-5"/></a>
-                  <a href="https://orcid.org/0009-0009-1597-4653" target="_blank" rel="noopener noreferrer" className="hover:text-accentCyan transition-colors" title="ORCID"><Fingerprint className="w-5 h-5"/></a>
-                  <a href="mailto:sdasshuvro@gmail.com" className="hover:text-accentCyan transition-colors" title="Email"><Mail className="w-5 h-5"/></a>
+                  <a href="https://www.linkedin.com/in/soumitro-kumar-das" aria-label="LinkedIn Profile" target="_blank" rel="noopener noreferrer" className="hover:text-accentCyan transition-colors" title="LinkedIn"><Linkedin className="w-5 h-5"/></a>
+                  <a href="https://github.com/SoumitroDas" aria-label="GitHub Profile" target="_blank" rel="noopener noreferrer" className="hover:text-accentCyan transition-colors" title="GitHub"><Github className="w-5 h-5"/></a>
+                  <a href="https://www.researchgate.net/profile/Soumitro-Kumar-Das" aria-label="ResearchGate Profile" target="_blank" rel="noopener noreferrer" className="hover:text-accentCyan transition-colors" title="ResearchGate"><BookOpen className="w-5 h-5"/></a>
+                  <a href="https://orcid.org/0009-0009-1597-4653" aria-label="ORCID Profile" target="_blank" rel="noopener noreferrer" className="hover:text-accentCyan transition-colors" title="ORCID"><Fingerprint className="w-5 h-5"/></a>
+                  <a href="mailto:sdasshuvro@gmail.com" aria-label="Email Address" className="hover:text-accentCyan transition-colors" title="Email"><Mail className="w-5 h-5"/></a>
                </div>
             </div>
           </div>
         </section>
+        </Suspense>
       </main>
 
       {/* Persistent Components */}
@@ -131,13 +135,15 @@ export default function App() {
         nodeMode={nodeMode}
       />
 
-      <AssistantChat />
+      <Suspense fallback={null}>
+        <AssistantChat />
 
-      <ContactModal 
-        isOpen={isContactOpen} 
-        onClose={() => setIsContactOpen(false)} 
-        onSuccess={triggerPulse}
-      />
+        <ContactModal 
+          isOpen={isContactOpen} 
+          onClose={() => setIsContactOpen(false)} 
+          onSuccess={triggerPulse}
+        />
+      </Suspense>
 
       {/* Global Header */}
       <header className="fixed top-0 left-0 w-full z-[80] px-6 py-6 md:px-20 flex justify-between items-center pointer-events-none">

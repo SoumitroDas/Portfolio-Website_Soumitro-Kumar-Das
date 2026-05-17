@@ -21,7 +21,7 @@ export const OrbitalRing: React.FC<Props> = ({ position, visible }) => {
         transform: 'translate(-50%, -50%)',
       }}
     >
-      <svg width="200" height="200" viewBox="0 0 200 200" className="overflow-visible">
+      <svg width="200" height="200" viewBox="0 0 200 200" style={{ overflow: 'visible', position: 'absolute' }} aria-hidden="true">
         {/* Gyro Ring 1 */}
         <motion.ellipse
           cx="100" cy="100" rx="90" ry="45"
