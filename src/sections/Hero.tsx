@@ -35,24 +35,15 @@ export const Hero: React.FC = () => {
     <section id="hero" className="min-h-screen flex items-center relative px-6 md:px-20 overflow-hidden py-20 md:py-0">
       <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-12">
         <div className="space-y-8 z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
+          <div>
             <h1 className="font-display text-4xl md:text-6xl lg:text-7xl tracking-tight text-textPrimary leading-[1.1]">
               Soumitro Kumar Das Shuvro
             </h1>
-          </motion.div>
+          </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-textSecondary text-lg md:text-xl font-light tracking-wide italic max-w-xl"
-          >
+          <p className="text-textSecondary text-lg md:text-xl font-light tracking-wide italic max-w-xl">
             Computational Applied Mathematician | Researcher in Complex Systems & Intelligence
-          </motion.p>
+          </p>
 
           <div className="h-10 flex items-center font-mono text-sm uppercase tracking-widest text-accentCyan">
             <span className="mr-4">&gt; Exploring:</span>

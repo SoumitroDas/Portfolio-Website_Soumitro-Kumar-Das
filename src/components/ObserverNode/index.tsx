@@ -87,7 +87,13 @@ export const ObserverNode: React.FC<Props> = ({ energyLevel, sectionMode, nodeMo
     <div 
       ref={containerRef}
       className="fixed inset-0 pointer-events-none z-50 overflow-visible"
-      style={{ width: '100vw', height: '100vh' }}
+      style={{ 
+        width: '100vw', 
+        height: '100vh', 
+        transform: 'translateZ(0)', 
+        willChange: 'transform', 
+        contain: 'layout style' 
+      }}
     >
       {/* Resting Rings - always at ringPos */}
       <OrbitalRing 

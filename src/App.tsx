@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useObserverNode } from './hooks/useObserverNode';
 import { ObserverNode } from './components/ObserverNode';
@@ -6,7 +6,6 @@ import { Background } from './components/Background';
 import { Hero } from './sections/Hero';
 import { About } from './sections/About';
 import { Research } from './sections/Research';
-import { ResearchMap } from './sections/ResearchMap';
 import { Projects } from './sections/Projects';
 import { Timeline } from './sections/Timeline';
 import { Skills } from './sections/Skills';
@@ -17,6 +16,8 @@ import { AssistantChat } from './components/ui/AssistantChat';
 import { StatsBar } from './components/StatsBar';
 import { SECTIONS, SectionMode } from './lib/constants';
 import { Linkedin, Github, Search, Mail, GraduationCap, Database, BookOpen, Fingerprint } from 'lucide-react';
+
+const ResearchMap = lazy(() => import('./sections/ResearchMap').then(module => ({ default: module.ResearchMap })));
 
 const SectionWrapper: React.FC<{ 
   id: string; 
@@ -69,7 +70,9 @@ export default function App() {
 
         <SectionWrapper id="research" mode={SECTIONS.RESEARCH} setMode={setSectionMode}>
           <Research />
-          <ResearchMap />
+          <Suspense fallback={<div className="py-24 text-center text-textSecondary font-mono text-xs w-full">Loading Topology Map...</div>}>
+            <ResearchMap />
+          </Suspense>
         </SectionWrapper>
 
         <SectionWrapper id="projects" mode={SECTIONS.PROJECTS} setMode={setSectionMode}>

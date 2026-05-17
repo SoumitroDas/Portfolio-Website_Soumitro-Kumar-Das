@@ -6,7 +6,21 @@ import {defineConfig, loadEnv} from 'vite';
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
-    plugins: [react(), tailwindcss()],
+    plugins: [
+      react(), 
+      tailwindcss(),
+      {
+        name: 'async-css',
+        enforce: 'post',
+        transformIndexHtml(html, ctx) {
+          if (!ctx.bundle) return html;
+          return html.replace(
+            /<link rel="stylesheet"(.*?)>/g,
+            '<link rel="preload" as="style"$1>\n    <link rel="stylesheet" media="print" onload="this.media=\'all\'"$1>\n    <noscript><link rel="stylesheet"$1></noscript>'
+          );
+        }
+      }
+    ],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },
@@ -14,6 +28,18 @@ export default defineConfig(({mode}) => {
       alias: {
         '@': path.resolve(__dirname, '.'),
       },
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor-three': ['three'],
+            'vendor-gsap': ['gsap'],
+            'vendor-d3': ['d3'],
+            'vendor-framer': ['motion/react']
+          }
+        }
+      }
     },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.

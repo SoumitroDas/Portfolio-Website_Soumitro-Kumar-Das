@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
+import { gsap } from 'gsap';
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+
+gsap.registerPlugin(MotionPathPlugin);
 
 const achievements = [
   "International Top Breaking Adjudicator — 7th Bicol Intervarsity, Philippines (2023)",
@@ -10,6 +14,52 @@ const achievements = [
 ];
 
 export const Debate: React.FC = () => {
+    useEffect(() => {
+        gsap.to('.travel-dot-1', {
+            motionPath: {
+                path: '#connection-line-1',
+                align: '#connection-line-1',
+                alignOrigin: [0.5, 0.5]
+            },
+            duration: 2,
+            repeat: -1,
+            ease: 'none'
+        });
+        gsap.to('.travel-dot-2', {
+            motionPath: {
+                path: '#connection-line-2',
+                align: '#connection-line-2',
+                alignOrigin: [0.5, 0.5]
+            },
+            duration: 2.2,
+            delay: 0.5,
+            repeat: -1,
+            ease: 'none'
+        });
+        gsap.to('.travel-dot-3', {
+            motionPath: {
+                path: '#connection-line-3',
+                align: '#connection-line-3',
+                alignOrigin: [0.5, 0.5]
+            },
+            duration: 2.4,
+            delay: 1,
+            repeat: -1,
+            ease: 'none'
+        });
+        gsap.to('.travel-dot-4', {
+            motionPath: {
+                path: '#connection-line-4',
+                align: '#connection-line-4',
+                alignOrigin: [0.5, 0.5]
+            },
+            duration: 2.6,
+            delay: 1.5,
+            repeat: -1,
+            ease: 'none'
+        });
+    }, []);
+
     return (
         <section id="debate" className="py-24 px-6 md:px-20 max-w-7xl mx-auto border-t border-white/5">
             <style>{`
@@ -20,18 +70,6 @@ export const Debate: React.FC = () => {
                 .ring-1 { animation: signalPulse 2.4s ease-out infinite; }
                 .ring-2 { animation: signalPulse 2.4s ease-out infinite 0.8s; }
                 .ring-3 { animation: signalPulse 2.4s ease-out infinite 1.6s; }
-                
-                @keyframes travelDot {
-                  0% { offset-distance: 0%; opacity: 1; }
-                  100% { offset-distance: 100%; opacity: 0.0; }
-                }
-                .travel-dot {
-                  animation: travelDot 2s linear infinite;
-                  offset-path: path('M 50,50 L 50,15');
-                }
-                .travel-dot-2 { offset-path: path('M 50,50 L 85,50'); animation: travelDot 2.2s linear infinite 0.5s; }
-                .travel-dot-3 { offset-path: path('M 50,50 L 50,85'); animation: travelDot 2.4s linear infinite 1s; }
-                .travel-dot-4 { offset-path: path('M 50,50 L 15,50'); animation: travelDot 2.6s linear infinite 1.5s; }
             `}</style>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -52,13 +90,13 @@ export const Debate: React.FC = () => {
                         <circle cx="50" cy="50" r="4" className="fill-accentGold" />
                         
                         {/* Satellites */}
-                        <line x1="50" y1="50" x2="50" y2="15" className="stroke-white/10" />
-                        <line x1="50" y1="50" x2="85" y2="50" className="stroke-white/10" />
-                        <line x1="50" y1="50" x2="50" y2="85" className="stroke-white/10" />
-                        <line x1="50" y1="50" x2="15" y2="50" className="stroke-white/10" />
+                        <path id="connection-line-1" className="stroke-white/10" d="M 50,50 L 50,15" />
+                        <path id="connection-line-2" className="stroke-white/10" d="M 50,50 L 85,50" />
+                        <path id="connection-line-3" className="stroke-white/10" d="M 50,50 L 50,85" />
+                        <path id="connection-line-4" className="stroke-white/10" d="M 50,50 L 15,50" />
 
                         {/* Dots */}
-                        <circle r="1" className="fill-accentGold travel-dot" />
+                        <circle r="1" className="fill-accentGold travel-dot-1" />
                         <circle r="1" className="fill-accentGold travel-dot-2" />
                         <circle r="1" className="fill-accentGold travel-dot-3" />
                         <circle r="1" className="fill-accentGold travel-dot-4" />

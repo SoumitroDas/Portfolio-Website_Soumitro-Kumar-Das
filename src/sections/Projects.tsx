@@ -120,12 +120,11 @@ export const Projects: React.FC = () => {
                 </div>
             </header>
 
-            <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <AnimatePresence mode='popLayout'>
                     {filteredProjects.map((p, i) => (
                         <motion.div
                             key={p.title}
-                            layout
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
@@ -142,7 +141,8 @@ export const Projects: React.FC = () => {
                                         target="_blank" 
                                         rel="noopener noreferrer"
                                         className="p-2 text-textSecondary hover:text-accentCyan transition-colors hover:scale-110"
-                                        title="View Source on GitHub"
+                                        aria-label={`View ${p.title} on GitHub`}
+                                        title={`View ${p.title} on GitHub`}
                                     >
                                         <Github className="w-5 h-5" />
                                     </a>
@@ -153,7 +153,7 @@ export const Projects: React.FC = () => {
                                 <p className="text-sm text-textSecondary mb-4">
                                     {p.desc}
                                 </p>
-                                <p className="text-xs text-textSecondary/70 mb-8 italic">
+                                <p className="text-xs text-textSecondary mb-8 italic opacity-80">
                                     {p.details}
                                 </p>
                             </div>
@@ -168,7 +168,7 @@ export const Projects: React.FC = () => {
                         </motion.div>
                     ))}
                 </AnimatePresence>
-            </motion.div>
+            </div>
             
             <div className="mt-20 p-12 bg-gradient-to-br from-[#111827] to-[#0B0F14] border border-white/10 rounded-xl relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">

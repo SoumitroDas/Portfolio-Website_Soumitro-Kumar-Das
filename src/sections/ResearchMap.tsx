@@ -302,7 +302,7 @@ export const ResearchMap: React.FC = () => {
                     </button>
                 </div>
                 
-                <p className="font-mono text-[10px] text-textSecondary mt-6 text-center opacity-40 uppercase tracking-widest">
+                <p className="font-mono text-[10px] text-textSecondary mt-6 text-center opacity-80 uppercase tracking-widest">
                    Force-directed graph of interdisciplinary intersections.
                 </p>
             </div>

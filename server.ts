@@ -36,7 +36,7 @@ async function startServer() {
 
     try {
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: "gemini-3-flash-preview",
             contents: `Summarize recent advances in ${topic} in the context of my other research: ${allResearchTopics.join(", ")}. Keep it concise and insightful.`,
         });
         
@@ -166,7 +166,7 @@ You have access to Google Search. ALWAYS use Google Search if the user asks for 
         : `User: ${message}\nAssistant:`;
 
       const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
+        model: "gemini-3-flash-preview",
         contents: prompt,
         config: {
           systemInstruction,
