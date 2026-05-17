@@ -23,6 +23,9 @@ const meditations = [
 export const Inquiry: React.FC = () => {
     return (
         <section id="inquiry" className="py-48 px-6 md:px-20 max-w-2xl mx-auto text-center">
+            <div className="mb-24">
+                <h2 className="sr-only">Philosophical Inquiry</h2>
+            </div>
             <div className="space-y-48">
                 {meditations.map((m, i) => (
                     <motion.div

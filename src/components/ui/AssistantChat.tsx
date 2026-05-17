@@ -43,9 +43,12 @@ export function AssistantChat() {
       } else {
         throw new Error(data.error || 'Failed to get response');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Chat error:', error);
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Apologies, I encountered an error processing your request. Please try again later.' }]);
+      const errorMessage = error.message.includes('Quota Exceeded') || error.message.includes('too many requests')
+        ? error.message 
+        : 'Apologies, I encountered an error processing your request. Please try again later.';
+      setMessages(prev => [...prev, { role: 'assistant', content: errorMessage }]);
     } finally {
       setIsLoading(false);
     }

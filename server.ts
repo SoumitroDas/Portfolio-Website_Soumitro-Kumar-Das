@@ -26,7 +26,7 @@ async function startServer() {
 
   app.use(express.json());
 
-  // API route for research summary
+      // API route for research summary
   app.post("/api/research-summary", async (req, res) => {
     const { topic, allResearchTopics } = req.body;
     
@@ -41,8 +41,11 @@ async function startServer() {
         });
         
         res.json({ summary: response.text });
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error generating research summary:", error);
+        if (error.status === 429 || (error.error && error.error.code === 429)) {
+            return res.status(429).json({ error: "API Quota Exceeded. Please try again in a few minutes." });
+        }
         res.status(500).json({ error: "Failed to generate summary" });
     }
   });
@@ -126,10 +129,10 @@ async function startServer() {
     }
 
     try {
-      const systemInstruction = `You are a helpful and elegant AI assistant named "Vidur" on the personal research portfolio of Soumitro Kumar Das Shuvro (often referred to simply as Shuvro or Soumitro).
+      const systemInstruction = `You are a helpful and elegant AI assistant named "Vidur" on the personal research portfolio of Soumitro Kumar Das (often referred to simply as Soumitro).
                                  
-Here is comprehensive information about Soumitro Kumar Das Shuvro:
-- Full Name: Soumitro Kumar Das Shuvro
+Here is comprehensive information about Soumitro Kumar Das:
+- Full Name: Soumitro Kumar Das
 - Location: Rajshahi, Bangladesh
 - Profession: Computational Applied Mathematician | Machine Learning | Fractional-Order Modeling | Data-Driven Physical System Simulation
 - Education: M.Sc in Applied Mathematics, University of Rajshahi (2024-2025); B.Sc in Applied Mathematics, University of Rajshahi (2019-2023).
@@ -157,7 +160,7 @@ Achievements: 2nd Place at UiPath Global Bootcamp Challenge (Generative AI), Int
 
 Speak concisely and warmly. If asked about his work, reference the specific latest information above, and provide direct GitHub links when queried about his projects.
 You have a dark, elegant, modern cyberpunk vibe just like the website. Keep responses short and to the point. Give brief overviews if someone asks about his research.
-You have access to Google Search. ALWAYS use Google Search if the user asks for his latest publications from Google Scholar, his recent work on GitHub, or his professional updates on LinkedIn. Search specifically for "Soumitro Kumar Das Shuvro" combined with the platform requested to give the most accurate, live information.`;
+You have access to Google Search. ALWAYS use Google Search if the user asks for his latest publications from Google Scholar, his recent work on GitHub, or his professional updates on LinkedIn. Search specifically for "Soumitro Kumar Das" combined with the platform requested to give the most accurate, live information.`;
 
       // Simplified chat approach, combining history into one prompt to avoid strict alternating-role validation issues
       const formattedHistory = (history || []).map((msg: any) => `${msg.role === "user" ? "User" : "Assistant"}: ${msg.content}`).join("\n\n");
@@ -176,8 +179,11 @@ You have access to Google Search. ALWAYS use Google Search if the user asks for 
       });
 
       res.json({ reply: response.text });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error generating chat response:", error);
+      if (error.status === 429 || (error.error && error.error.code === 429)) {
+        return res.status(429).json({ error: "I'm receiving too many requests right now. Please wait a moment and try again." });
+      }
       res.status(500).json({ error: "Failed to generate chat response" });
     }
   });
