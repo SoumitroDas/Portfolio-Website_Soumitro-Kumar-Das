@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bgPrimary: #0B0F14;
+  --color-bgSurface: #111827;
+  --color-textPrimary: #E5E7EB;
+  --color-textSecondary: #9CA3AF;
+  --color-accentCyan: #38BDF8;
+  --color-accentGold: #D4A373;
+  --color-accentEmerald: #34D399;
+
+  --font-display: "Cormorant Garamond", serif;
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  background-color: var(--color-bgPrimary);
+  color: var(--color-textPrimary);
+  font-family: var(--font-sans);
+}
+
+/* Chrome/Webkit autofill styling override */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus,
+select:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #0B0F14 inset !important;
+    -webkit-text-fill-color: #E5E7EB !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-accentCyan);
+  color: var(--color-bgPrimary);
+}
+
+.markdown-body {
+  font-family: var(--font-sans);
+}
+
+@layer utilities {
+  .text-glow-cyan {
+    text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+  }
+
+  @keyframes buttonFlash {
+    0% { box-shadow: 0 0 0px rgba(56, 189, 248, 0); border-color: rgba(255, 255, 255, 0.2); }
+    40% { box-shadow: 0 0 18px rgba(56, 189, 248, 0.6); border-color: rgba(56, 189, 248, 1); }
+    100% { box-shadow: 0 0 0px rgba(56, 189, 248, 0); border-color: rgba(255, 255, 255, 0.2); }
+  }
+
+  .animate-button-flash {
+    animation: buttonFlash 0.4s ease-out;
+  }
+}

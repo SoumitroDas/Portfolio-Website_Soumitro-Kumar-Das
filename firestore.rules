@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Helper for CollaborationRequest validation
+    function isValidCollaborationRequest(data) {
+      return data.name is string && data.name.size() >= 1 && data.name.size() <= 200
+        && data.organization is string && data.organization.size() >= 1 && data.organization.size() <= 200
+        && data.email is string && data.email.size() >= 3 && data.email.size() <= 200
+        && data.purpose is string && data.purpose.size() >= 1 && data.purpose.size() <= 500
+        && data.collaboration_type is string && data.collaboration_type.size() >= 1 && data.collaboration_type.size() <= 100
+        && (!('message' in data) || (data.message is string && data.message.size() <= 2000))
+        && data.timestamp == request.time
+        && data.status == 'unread';
+    }
+
+    match /collaboration_requests/{requestId} {
+      // Allow public write (create only)
+      allow create: if isValidId(requestId) && isValidCollaborationRequest(request.resource.data);
+      
+      // Only admin can read
+      allow read, update, delete: if isSignedIn(); // Change to something more restrictive if admin identification is available
+    }
+  }
+}

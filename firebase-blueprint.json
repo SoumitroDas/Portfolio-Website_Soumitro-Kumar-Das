@@ -1,0 +1,26 @@
+{
+  "entities": {
+    "CollaborationRequest": {
+      "title": "Collaboration Request",
+      "description": "Information provided by potential collaborators.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "organization": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "purpose": { "type": "string" },
+        "collaboration_type": { "type": "string" },
+        "message": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["unread", "read", "archived"] }
+      },
+      "required": ["name", "organization", "email", "purpose", "collaboration_type", "timestamp", "status"]
+    }
+  },
+  "firestore": {
+    "collaboration_requests": {
+      "schema": "CollaborationRequest",
+      "description": "Collection of collaboration requests submitted through the inquiry form."
+    }
+  }
+}
